@@ -96,7 +96,10 @@ STOCHSRC = gckpp_Stochastic.f90
 STOCHOBJ = gckpp_Stochastic.o 
 
 MAINSRC = gckpp_Main.f90   gckpp_Initialize.f90   gckpp_Integrator.f90 gckpp_Model.f90
-MAINOBJ = gckpp_Main.o     gckpp_Initialize.o     gckpp_Integrator.o   gckpp_Model.o 
+MAINOBJ = gckpp_Main.o     gckpp_Initialize.o     gckpp_Integrator.o   gckpp_Model.o
+
+RCONSTSRC = gckpp_Check_RCONST.f90   gckpp_Initialize.f90   gckpp_Integrator.f90 gckpp_Model.f90
+RCONSTOBJ = gckpp_Check_RCONST.o     gckpp_Initialize.o     gckpp_Integrator.o   gckpp_Model.o
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # User: modify the line below to include only the
@@ -116,6 +119,9 @@ all:    exe
 # https://stackoverflow.com/questions/13941549/compiling-fortran-netcdf-programs-on-ubuntu
 exe:	$(ALLOBJ) $(MAINOBJ)
 	$(FC) -o gckpp.exe $(FOPT) $(ALLOBJ) $(MAINOBJ) $(LIBS) $(NETCDF_FLAG)
+
+rconst:	$(ALLOBJ) $(RCONSTOBJ)
+	$(FC) -o check_rconst.exe $(FOPT) $(ALLOBJ) $(RCONSTOBJ) $(LIBS) $(NETCDF_FLAG)
 
 stochastic:$(ALLOBJ) $(STOCHOBJ) $(MAINOBJ)
 	$(FC) $(FOPT) $(ALLOBJ) $(STOCHOBJ) $(MAINOBJ) $(LIBS) \
@@ -187,6 +193,9 @@ gckpp_Util.o: gckpp_Util.f90  $(GENOBJ) gckpp_Monitor.o
 	$(FC) $(FOPT) -c $<
 
 gckpp_Main.o: gckpp_Main.f90  $(ALLOBJ) gckpp_Initialize.o gckpp_Model.o gckpp_Integrator.o
+	$(FC) $(FOPT) -c $< $(NETCDF_FLAG)
+
+gckpp_Check_RCONST.o: gckpp_Check_RCONST.f90  $(ALLOBJ) gckpp_Initialize.o gckpp_Model.o gckpp_Integrator.o
 	$(FC) $(FOPT) -c $< $(NETCDF_FLAG)
 
 gckpp_Model.o: gckpp_Model.f90  $(ALLOBJ) gckpp_Integrator.o
