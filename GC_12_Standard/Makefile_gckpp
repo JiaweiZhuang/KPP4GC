@@ -49,6 +49,12 @@ FOPT_GFORTRAN = -cpp -w -std=legacy -fautomatic -fno-align-commons \
                 -fconvert=big-endian -fno-range-check -O3 -funroll-loops \
                 -fopenmp -mcmodel=medium -fbacktrace -g -ffast-math
 
+# for reading KPP fields in NetCDF formats
+# before NetCDF 4.2
+# NETCDF_FLAG     = -I$(NETCDF_HOME)/include -L$(NETCDF_HOME)/lib -lnetcdf -lnetcdff
+# after NetCDF 4.2
+NETCDF_FLAG     = -I$(NETCDF_FORTRAN_HOME)/include -L$(NETCDF_FORTRAN_HOME)/lib -lnetcdff -lnetcdf
+
 # define FULL_ALGEBRA for non-sparse integration
 FC   = $(FC_$(COMPILER))
 FOPT = $(FOPT_$(COMPILER)) # -DFULL_ALGEBRA
@@ -106,8 +112,10 @@ ALLOBJ = $(GENOBJ) $(FUNOBJ) $(JACOBJ) \
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 all:    exe
 
-exe:	$(ALLOBJ) $(MAINOBJ) 
-	$(FC) $(FOPT) $(ALLOBJ) $(MAINOBJ) $(LIBS) -o gckpp.exe
+# -lnetcdff must be on the rightmost position
+# https://stackoverflow.com/questions/13941549/compiling-fortran-netcdf-programs-on-ubuntu
+exe:	$(ALLOBJ) $(MAINOBJ)
+	$(FC) -o gckpp.exe $(FOPT) $(ALLOBJ) $(MAINOBJ) $(LIBS) $(NETCDF_FLAG)
 
 stochastic:$(ALLOBJ) $(STOCHOBJ) $(MAINOBJ)
 	$(FC) $(FOPT) $(ALLOBJ) $(STOCHOBJ) $(MAINOBJ) $(LIBS) \
@@ -179,7 +187,7 @@ gckpp_Util.o: gckpp_Util.f90  $(GENOBJ) gckpp_Monitor.o
 	$(FC) $(FOPT) -c $<
 
 gckpp_Main.o: gckpp_Main.f90  $(ALLOBJ) gckpp_Initialize.o gckpp_Model.o gckpp_Integrator.o
-	$(FC) $(FOPT) -c $<
+	$(FC) $(FOPT) -c $< $(NETCDF_FLAG)
 
 gckpp_Model.o: gckpp_Model.f90  $(ALLOBJ) gckpp_Integrator.o
 	$(FC) $(FOPT) -c $<
