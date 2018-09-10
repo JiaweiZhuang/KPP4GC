@@ -42,12 +42,12 @@ FC_GFORTRAN     = gfortran
 # https://cboard.cprogramming.com/c-programming/167903-relocation-truncated-fit-r_x86_64_pc32-against-symbol-defined-common.html
 
 # minimal requirement
-# FOPT_GFORTRAN   = -cpp -O -Wall -mcmodel=medium
+FOPT_GFORTRAN   = -cpp -O -Wall -mcmodel=medium
 
-# or use GEOS-Chem flags
-FOPT_GFORTRAN = -cpp -w -std=legacy -fautomatic -fno-align-commons \
-                -fconvert=big-endian -fno-range-check -O3 -funroll-loops \
-                -fopenmp -mcmodel=medium -fbacktrace -g -ffast-math
+# or use GEOS-Chem flags. This leads to seg fault. No sure why.
+#FOPT_GFORTRAN = -cpp -w -std=legacy -fautomatic -fno-align-commons \
+#                -fconvert=big-endian -fno-range-check -O3 -funroll-loops \
+#                -fopenmp -mcmodel=medium -fbacktrace -g -ffast-math
 
 # for reading KPP fields in NetCDF formats
 # before NetCDF 4.2
