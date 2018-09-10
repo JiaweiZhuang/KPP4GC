@@ -19,7 +19,7 @@ REAL(dp) :: RCNTRL(20), RSTATE(20)
 ! For IO
 character (len = *), parameter :: INPUT_FILE_NAME = "./KPP_fields.nc"
 character (len = *), parameter :: OUTPUT_FILE_NAME = "./C_after.nc"
-logical :: is_write = .false.
+logical :: is_write = .true.
 
 integer :: ncid, varid ! can reuse them for different variables
 integer :: x_dimid, y_dimid, z_dimid, n_dimid, dimids(4) ! for NetCDF write
