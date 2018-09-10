@@ -4,3 +4,10 @@ lex.yy.c
 y.tab.c
 y.tab.h
 
+# general
+*.swp
+.DS_Store
+
+# Fortran compile
+*.mod
+*.exe
