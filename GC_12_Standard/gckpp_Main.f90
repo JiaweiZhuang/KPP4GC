@@ -27,7 +27,7 @@ integer :: x_dimid, y_dimid, z_dimid, n_dimid, dimids(4) ! for NetCDF write
 ! For data
 integer :: II, JJ, LL ! for looping through data
 integer, parameter :: IIPAR=72, JJPAR=46, LLPAR=72
-! NSPEC=238, NREACT=722 are already defined by KPP
+! NSPEC, NREACT are already defined by KPP
 REAL*8 :: ALL_C_before(NSPEC, IIPAR, JJPAR, LLPAR)
 REAL*8 :: ALL_C_after(NSPEC, IIPAR, JJPAR, LLPAR)
 REAL*8 :: ALL_RCONST(NREACT, IIPAR, JJPAR, LLPAR)
