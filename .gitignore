@@ -11,3 +11,12 @@ y.tab.h
 # Fortran compile
 *.mod
 *.exe
+*.a
+*.so
+*.so.dSYM
+
+# notebook
+*.ipynb_checkpoints
+
+# data
+*.nc
